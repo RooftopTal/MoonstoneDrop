@@ -19,11 +19,33 @@ export class MapComponent implements AfterViewInit {
   }
   @ViewChild('moonstoneCanvas') canvas!: ElementRef<HTMLCanvasElement>;
 
-  private colourService = inject(ColourService);
-
   static readonly mapSize = 36;
-
   chart?: Chart;
+
+  private alwaysShowLabelsPlugin = ({
+    id: 'alwaysShowLabels',
+    afterDatasetsDraw(chart: Chart) {
+      const ctx = chart.ctx;
+
+      chart.data.datasets.forEach((dataset, datasetIndex) => {
+        const meta = chart.getDatasetMeta(datasetIndex);
+        meta.data.forEach((point, index) => {
+          const data = dataset.data[index] as any;
+          const depth = data.z; // your depth value
+
+          if (depth !== undefined) {
+            ctx.save();
+            ctx.fillStyle = '#000'; // text color
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            ctx.fillText(depth, point.x, point.y - 6); // slightly above the point
+            ctx.restore();
+          }
+        });
+      });
+    }
+  });
 
   ngAfterViewInit() {
     this.chart = new Chart(
@@ -31,6 +53,7 @@ export class MapComponent implements AfterViewInit {
       {
         type: 'scatter',
         data: {
+          labels: [],
           datasets: [{
             label: "Moonstones",
             borderColor: '#36A2EB',
@@ -47,16 +70,10 @@ export class MapComponent implements AfterViewInit {
             y: { min: 0, max: MapComponent.mapSize, ticks: {stepSize: 12} },
           },
           plugins: {
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  // Show depth in tooltip
-                  return `Depth: ${context.label}`;
-                }
-              }
-            }
+            tooltip: { enabled: false } // disable standard hover tooltips
           },
         },
+        plugins: [this.alwaysShowLabelsPlugin]
       },
     );
   }
@@ -65,10 +82,14 @@ export class MapComponent implements AfterViewInit {
     if (!this.chart) return;
 
     if (!inputStones || inputStones.length === 0) {
+      this.chart.data.labels = [];
       this.chart.data.datasets[0].data = [];
       this.chart.data.datasets[0].backgroundColor = [];
+      this.chart.data.datasets[0].borderColor = [];
     } else {
+      this.chart.data.labels = inputStones.map((stone) => `Depth: ${stone.depth}`);
       this.chart.data.datasets[0].backgroundColor = ColourService.rainbow;
+      this.chart.data.datasets[0].borderColor = ColourService.rainbow;
       this.chart.data.datasets[0].data = inputStones.map(this.toCartesian);
     }
 
@@ -81,7 +102,7 @@ export class MapComponent implements AfterViewInit {
     return {
       x: stone.distance * Math.cos(angleRad) + MapComponent.mapSize/2,
       y: stone.distance * Math.sin(angleRad) + MapComponent.mapSize/2,
-      label: stone.depth
+      z: stone.depth,
     };
   }
 }
