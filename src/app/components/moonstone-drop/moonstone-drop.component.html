@@ -12,6 +12,10 @@
 
     <!-- Table  -->
     <table mat-table [dataSource]="stones" class="table-container">
+      <ng-container matColumnDef="colour">
+        <th mat-header-cell *matHeaderCellDef> Colour </th>
+        <td mat-cell *matCellDef="let stone"> <app-moonstone-icon [colour]="getColour(stone)"></app-moonstone-icon> </td>
+      </ng-container>
       <ng-container matColumnDef="degrees">
         <th mat-header-cell *matHeaderCellDef> Degrees </th>
         <td mat-cell *matCellDef="let stone"> {{stone.degrees}} </td>
@@ -20,6 +24,12 @@
         <th mat-header-cell *matHeaderCellDef> Distance </th>
         <td mat-cell *matCellDef="let stone">
           {{ stone.distance }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="depth">
+        <th mat-header-cell *matHeaderCellDef> Depth </th>
+        <td mat-cell *matCellDef="let stone">
+          {{ stone.depth }}
         </td>
       </ng-container>
       <ng-container matColumnDef="reroll">

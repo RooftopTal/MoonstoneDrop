@@ -1,13 +1,7 @@
-import {AfterViewInit, Component, ElementRef, inject, input, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, inject, Input, ViewChild} from '@angular/core';
 import {Moonstone} from '../../models/moonstone.model';
-import {
-  Chart,
-  ScatterController,
-  LinearScale,
-  PointElement,
-  Tooltip,
-  Legend, ScatterDataPoint
-} from 'chart.js';
+import {Chart, Legend, LinearScale, PointElement, ScatterController, Tooltip,} from 'chart.js';
+import {ColourService} from '../../services/colour.service';
 
 // register everything the map needs
 Chart.register(ScatterController, LinearScale, PointElement, Tooltip, Legend);
@@ -24,6 +18,8 @@ export class MapComponent implements AfterViewInit {
     this.updateChartData(value);
   }
   @ViewChild('moonstoneCanvas') canvas!: ElementRef<HTMLCanvasElement>;
+
+  private colourService = inject(ColourService);
 
   static readonly mapSize = 36;
 
@@ -50,7 +46,16 @@ export class MapComponent implements AfterViewInit {
             x: { min: 0, max: MapComponent.mapSize, ticks: {stepSize: 12} },
             y: { min: 0, max: MapComponent.mapSize, ticks: {stepSize: 12} },
           },
-
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  // Show depth in tooltip
+                  return `Depth: ${context.label}`;
+                }
+              }
+            }
+          },
         },
       },
     );
@@ -61,7 +66,9 @@ export class MapComponent implements AfterViewInit {
 
     if (!inputStones || inputStones.length === 0) {
       this.chart.data.datasets[0].data = [];
+      this.chart.data.datasets[0].backgroundColor = [];
     } else {
+      this.chart.data.datasets[0].backgroundColor = ColourService.rainbow;
       this.chart.data.datasets[0].data = inputStones.map(this.toCartesian);
     }
 
@@ -74,6 +81,7 @@ export class MapComponent implements AfterViewInit {
     return {
       x: stone.distance * Math.cos(angleRad) + MapComponent.mapSize/2,
       y: stone.distance * Math.sin(angleRad) + MapComponent.mapSize/2,
+      label: stone.depth
     };
   }
 }

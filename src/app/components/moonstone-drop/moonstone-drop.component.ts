@@ -6,6 +6,8 @@ import {Moonstone} from '../../models/moonstone.model';
 import { MatTableModule
 } from '@angular/material/table';
 import {MapComponent} from '../map/map.component';
+import {ColourService} from '../../services/colour.service';
+import {MoonstoneIconComponent} from './moonstone-icon/moonstone-icon.component';
 
 @Component({
   selector: 'app-moonstone-drop',
@@ -14,15 +16,16 @@ import {MapComponent} from '../map/map.component';
     MatButtonModule,
     MatTableModule,
     MapComponent,
+    MoonstoneIconComponent,
   ],
   templateUrl: './moonstone-drop.component.html',
   styleUrl: './moonstone-drop.component.css',
 })
 export class MoonstoneDropComponent {
   private dropService = inject(DropService);
-  private cdRef: ChangeDetectorRef = inject(ChangeDetectorRef);
+  colourService = inject(ColourService);
 
-  readonly columnsToDisplay: string[] = ['degrees', 'distance', 'reroll'];
+  readonly columnsToDisplay: string[] = ['colour', 'degrees', 'distance', 'depth', 'reroll'];
 
   stones: Moonstone[] = [];
 
@@ -35,7 +38,9 @@ export class MoonstoneDropComponent {
       console.error(`Could not drop stone ${index}`);
       return;
     }
-    this.stones[index] = this.dropService.dropStone();
+    this.stones[index] = this.dropService.dropStone(index);
     this.stones = [...this.stones];
   }
+
+  getColour = (stone: Moonstone) => this.colourService.getColour(stone.id)
 }
