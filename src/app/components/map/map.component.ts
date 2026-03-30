@@ -72,8 +72,8 @@ export class MapComponent implements AfterViewInit {
     const angleRad = (stone.degrees * Math.PI) / 180;
 
     return {
-      x: Math.round(stone.distance * Math.cos(angleRad)) + MapComponent.mapSize/2,
-      y: Math.round(stone.distance * Math.sin(angleRad)) + MapComponent.mapSize/2,
+      x: stone.distance * Math.cos(angleRad) + MapComponent.mapSize/2,
+      y: stone.distance * Math.sin(angleRad) + MapComponent.mapSize/2,
     };
   }
 }

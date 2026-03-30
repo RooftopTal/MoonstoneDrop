@@ -13,7 +13,7 @@ export class DropService {
     Array.from({ length: stoneCount}, () => this.dropStone())
 
   dropStone = (): Moonstone => ({
-    degrees: Math.floor(Math.random() * this.maxDegrees),
-    distance: Math.floor(Math.random() * this.maxDistance) + 1,
+    degrees: Math.ceil(Math.random() * this.maxDegrees),
+    distance: Math.ceil(Math.random() * this.maxDistance),
   })
 }
