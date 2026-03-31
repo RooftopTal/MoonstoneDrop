@@ -13,29 +13,29 @@
     <!-- Table  -->
     <table mat-table [dataSource]="stones" class="table-container">
       <ng-container matColumnDef="colour">
-        <th mat-header-cell *matHeaderCellDef> Colour </th>
+        <th hidden mat-header-cell *matHeaderCellDef> Colour </th>
         <td mat-cell *matCellDef="let stone"> <app-moonstone-icon [colour]="getColour(stone)"></app-moonstone-icon> </td>
       </ng-container>
       <ng-container matColumnDef="degrees">
-        <th mat-header-cell *matHeaderCellDef> Degrees </th>
-        <td mat-cell *matCellDef="let stone"> {{stone.degrees}} </td>
+        <th hidden mat-header-cell *matHeaderCellDef> Degrees </th>
+        <td mat-cell *matCellDef="let stone"> ∠{{stone.degrees}}° </td>
       </ng-container>
       <ng-container matColumnDef="distance">
-        <th mat-header-cell *matHeaderCellDef> Distance </th>
+        <th hidden mat-header-cell *matHeaderCellDef> Distance </th>
         <td mat-cell *matCellDef="let stone">
-          {{ stone.distance }}
+          {{ stone.distance }}"
         </td>
       </ng-container>
       <ng-container matColumnDef="depth">
-        <th mat-header-cell *matHeaderCellDef> Depth </th>
+        <th hidden mat-header-cell *matHeaderCellDef> Depth </th>
         <td mat-cell *matCellDef="let stone">
-          {{ stone.depth }}
+          ↓{{ stone.depth }}
         </td>
       </ng-container>
       <ng-container matColumnDef="reroll">
-        <th mat-header-cell *matHeaderCellDef></th>
+        <th hidden mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let stone; let i = index">
-          <button mat-raised-button color="primary" (click)="rerollStone(i)"><mat-icon>refresh</mat-icon>Reroll</button>
+          <button class="reroll-button" mat-raised-button color="primary" (click)="rerollStone(i)"><mat-icon>refresh</mat-icon>Reroll</button>
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

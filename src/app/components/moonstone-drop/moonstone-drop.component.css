@@ -19,7 +19,12 @@
 }
 
 .table-container {
-  display: block;
+  display: flex;
   width: 100%;
   padding-inline: 2ch;
+}
+
+.reroll-button {
+  display: flex;
+  block-size: 25px;
 }
