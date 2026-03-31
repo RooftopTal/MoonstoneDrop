@@ -6,7 +6,7 @@ import {MatIconModule} from '@angular/material/icon';
   imports: [
     MatIconModule,
   ],
-  template: '<mat-icon [style.color]="this.colour">add_circle</mat-icon>',
+  template: '<mat-icon class="colour-icon" [style.color]="this.colour">add_circle</mat-icon>',
   styleUrl: './moonstone-icon.component.css',
 })
 export class MoonstoneIconComponent {
