@@ -30,7 +30,8 @@
   min-width: 26px !important;
   padding: 0px !important;
   align-content: center;
-  box-shadow: 1px 1px 3px rgb(0 144 255 / 0.56);
+  box-shadow: 1px 1px 3px rgb(0 0 0 / 0.56);
+  color: #36b;
 
   .reroll-icon {
     align-content: center;
