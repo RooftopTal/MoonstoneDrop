@@ -64,7 +64,7 @@ export class MapComponent implements AfterViewInit {
         options: {
           aspectRatio: 1,
           responsive: true,
-          maintainAspectRatio: true,
+          maintainAspectRatio: false,
           scales: {
             x: { min: 0, max: MapComponent.mapSize, ticks: {stepSize: 12} },
             y: { min: 0, max: MapComponent.mapSize, ticks: {stepSize: 12} },
