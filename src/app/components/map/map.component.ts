@@ -13,14 +13,28 @@ Chart.register(ScatterController, LinearScale, PointElement, Tooltip, Legend);
   styleUrl: './map.component.css',
 })
 export class MapComponent implements AfterViewInit {
+  private _stones: Moonstone[] = [];
+
   @Input()
   set stones(value: Moonstone[]) {
+    this._stones = value;
     this.updateChartData(value);
   }
   @ViewChild('moonstoneCanvas') canvas!: ElementRef<HTMLCanvasElement>;
 
   static readonly mapSize = 36;
   chart?: Chart;
+
+  private chartAreaBackgroundPlugin = {
+    id: 'chartAreaBackground',
+    beforeDraw(chart: Chart) {
+      const { ctx, chartArea: { top, left, width, height } } = chart;
+      ctx.save();
+      ctx.fillStyle = '#fefcf5';
+      ctx.fillRect(left, top, width, height);
+      ctx.restore();
+    }
+  };
 
   private alwaysShowLabelsPlugin = ({
     id: 'alwaysShowLabels',
@@ -74,9 +88,10 @@ export class MapComponent implements AfterViewInit {
             legend: { display: false },
           },
         },
-        plugins: [this.alwaysShowLabelsPlugin]
+        plugins: [this.chartAreaBackgroundPlugin, this.alwaysShowLabelsPlugin]
       },
     );
+    this.updateChartData(this._stones);
   }
 
   private updateChartData(inputStones: Moonstone[]) {

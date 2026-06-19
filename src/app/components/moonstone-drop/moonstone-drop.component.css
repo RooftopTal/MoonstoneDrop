@@ -25,6 +25,7 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgb(0 0 0 / 0.12);
+  background-color: #fefcf5;
 }
 
 .table-container thead,
@@ -33,7 +34,7 @@
 }
 
 .table-container tr:nth-child(even) {
-  background-color: #f4f4f8;
+  background-color: #f0e8d0;
 }
 
 .no-data-row td {
