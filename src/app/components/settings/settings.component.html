@@ -16,6 +16,13 @@
           <input matSliderThumb [value]="settings.stoneCount()" (valueChange)="settings.stoneCount.set($event)">
         </mat-slider>
       </div>
+
+      <div class="setting-row">
+        <label>Max distance <span class="value">{{ settings.maxDistance() }}"</span></label>
+        <mat-slider min="1" max="18" step="1" discrete>
+          <input matSliderThumb [value]="settings.maxDistance()" (valueChange)="settings.maxDistance.set($event)">
+        </mat-slider>
+      </div>
     </fieldset>
   </div>
 </div>
