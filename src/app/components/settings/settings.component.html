@@ -1,0 +1,21 @@
+<div class="page">
+  <header class="title-bar">
+    <button mat-icon-button class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Settings</h1>
+  </header>
+
+  <div class="container">
+    <fieldset>
+      <legend>Core settings</legend>
+
+      <div class="setting-row">
+        <label>Stones <span class="value">{{ settings.stoneCount() }}</span></label>
+        <mat-slider min="1" max="10" step="1" discrete>
+          <input matSliderThumb [value]="settings.stoneCount()" (valueChange)="settings.stoneCount.set($event)">
+        </mat-slider>
+      </div>
+    </fieldset>
+  </div>
+</div>

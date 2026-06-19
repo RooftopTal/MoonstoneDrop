@@ -1,6 +1,9 @@
 <div class="page">
 <header class="title-bar">
-  <h1>Moonstone drop sim</h1>
+  <h1>Moonstone Drop Simulator</h1>
+  <button mat-icon-button class="settings-btn" routerLink="/settings">
+    <mat-icon>settings</mat-icon>
+  </button>
 </header>
 
 <div class="container">
@@ -11,11 +14,10 @@
   </button>
 
   <!-- Map  -->
-  @if (stones.length) {
-    <app-map [stones]="stones" class="map-container"/>
-  }
+  <app-map [stones]="stones" class="map-container"/>
 
     <!-- Table  -->
+    <div class="table-scroll-wrapper">
     <table mat-table [dataSource]="stones" class="table-container">
       <ng-container matColumnDef="colour">
         <th hidden mat-header-cell *matHeaderCellDef> Colour </th>
@@ -50,5 +52,6 @@
         <td [attr.colspan]="columnsToDisplay.length">Waiting for the moon to shine...</td>
       </tr>
     </table>
+    </div>
 </div>
 </div>

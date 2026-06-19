@@ -12,7 +12,10 @@ export class ColourService {
     '#9d5',
     '#0bc',
     '#36b',
-    '#817'
+    '#817',
+    '#000',
+    '#c66',
+    '#4d8'
   ];
 
   getColour = (index: number) => ColourService.rainbow[index];

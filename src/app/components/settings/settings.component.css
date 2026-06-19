@@ -1,0 +1,73 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
+.title-bar {
+  background-color: #6b9fd4;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0.4rem 0.5rem;
+  flex-shrink: 0;
+
+  h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 500;
+    flex: 1;
+    text-align: center;
+  }
+}
+
+.back-btn {
+  color: #fff;
+}
+
+.container {
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+fieldset {
+  border: 1px solid #c0c0c0;
+  border-radius: 8px;
+  padding: 1rem 1.5rem 1rem 1rem;
+  margin: 0;
+  background-color: #fefcf5;
+
+  legend {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.1rem;
+    padding: 0 0.4rem;
+    color: #555;
+  }
+}
+
+.setting-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  label {
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .value {
+    font-weight: 500;
+  }
+
+  mat-slider {
+    display: block;
+    width: 100%;
+  }
+}

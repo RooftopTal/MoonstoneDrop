@@ -7,15 +7,22 @@
 .title-bar {
   background-color: #6b9fd4;
   color: #fff;
-  text-align: center;
-  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  padding: 0.4rem 0.5rem;
   flex-shrink: 0;
 
   h1 {
     margin: 0;
-    font-size: 1.25rem;
+    font-size: 1.6rem;
     font-weight: 500;
+    flex: 1;
+    text-align: center;
   }
+}
+
+.settings-btn {
+  color: #fff;
 }
 
 .container {
@@ -34,10 +41,30 @@
 
 .map-container {
   display: block;
+  flex: 0 0 auto;
+  width: 80%;
+}
+
+.table-scroll-wrapper {
   flex: 1 1 0;
   min-height: 0;
-  aspect-ratio: 1;
-  max-width: 100%;
+  overflow-y: auto;
+  width: 100%;
+  border-radius: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #a0a0a0 #f0e8d0;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f0e8d0;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #a0a0a0;
+    border-radius: 4px;
+  }
 }
 
 .table-container {
@@ -61,6 +88,8 @@
   text-align: center;
   color: #aaa;
   font-style: italic;
+  font-family: 'EB Garamond', serif;
+  font-size: 1.1rem;
 }
 
 .reroll-button {
@@ -71,6 +100,7 @@
   align-content: center;
   box-shadow: 1px 1px 3px rgb(0 0 0 / 0.56);
   color: #36b;
+  background-color: #fff;
 
   .reroll-icon {
     align-content: center;

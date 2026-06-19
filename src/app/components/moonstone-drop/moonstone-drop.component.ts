@@ -1,13 +1,13 @@
-import {ChangeDetectorRef, Component, inject} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {DropService} from '../../services/drop.service';
 import {Moonstone} from '../../models/moonstone.model';
-import { MatTableModule
-} from '@angular/material/table';
+import {MatTableModule} from '@angular/material/table';
 import {MapComponent} from '../map/map.component';
 import {ColourService} from '../../services/colour.service';
 import {MoonstoneIconComponent} from './moonstone-icon/moonstone-icon.component';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-moonstone-drop',
@@ -17,6 +17,7 @@ import {MoonstoneIconComponent} from './moonstone-icon/moonstone-icon.component'
     MatTableModule,
     MapComponent,
     MoonstoneIconComponent,
+    RouterLink,
   ],
   templateUrl: './moonstone-drop.component.html',
   styleUrl: './moonstone-drop.component.css',
