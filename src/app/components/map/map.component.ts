@@ -70,7 +70,8 @@ export class MapComponent implements AfterViewInit {
             y: { min: 0, max: MapComponent.mapSize, ticks: {stepSize: 12} },
           },
           plugins: {
-            tooltip: { enabled: false } // disable standard hover tooltips
+            tooltip: { enabled: false },
+            legend: { display: false },
           },
         },
         plugins: [this.alwaysShowLabelsPlugin]
