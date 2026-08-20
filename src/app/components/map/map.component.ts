@@ -18,6 +18,7 @@ export class MapComponent implements AfterViewInit {
   private _stones: Moonstone[] = [];
 
   private static readonly deploymentZoneInset = 10;
+  private static readonly backdropColour = '#fefcf5';
 
   @Input()
   set stones(value: Moonstone[]) {
@@ -43,7 +44,7 @@ export class MapComponent implements AfterViewInit {
         ctx.drawImage(photo, left, top, width, height);
         ctx.globalAlpha = 1;
       } else {
-        ctx.fillStyle = '#fefcf5';
+        ctx.fillStyle = MapComponent.backdropColour;
         ctx.fillRect(left, top, width, height);
       }
       ctx.restore();
@@ -103,6 +104,24 @@ export class MapComponent implements AfterViewInit {
         ctx.moveTo(xScale.getPixelForValue(start.x), yScale.getPixelForValue(start.y));
         ctx.lineTo(xScale.getPixelForValue(end.x), yScale.getPixelForValue(end.y));
         ctx.stroke();
+      });
+      ctx.restore();
+    },
+  };
+
+  private pointHaloPlugin = {
+    id: 'pointHalo',
+    beforeDatasetsDraw: (chart: Chart) => {
+      if (!chart.isDatasetVisible(0)) return;
+
+      const { ctx } = chart;
+      ctx.save();
+      ctx.fillStyle = MapComponent.backdropColour;
+      chart.getDatasetMeta(0).data.forEach((point) => {
+        const radius = (point.options as { radius?: number }).radius ?? 3;
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, radius + 2, 0, Math.PI * 2);
+        ctx.fill();
       });
       ctx.restore();
     },
@@ -171,7 +190,7 @@ export class MapComponent implements AfterViewInit {
             legend: { display: false },
           },
         },
-        plugins: [this.chartAreaBackgroundPlugin, this.deploymentZonePlugin, this.alwaysShowLabelsPlugin]
+        plugins: [this.chartAreaBackgroundPlugin, this.deploymentZonePlugin, this.pointHaloPlugin, this.alwaysShowLabelsPlugin]
       },
     );
     this.updateChartData(this._stones);
