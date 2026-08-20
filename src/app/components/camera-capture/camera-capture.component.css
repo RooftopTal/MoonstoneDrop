@@ -1,0 +1,87 @@
+.camera-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  height: 100dvh;
+  background-color: #1a1a1a;
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+.square-frame {
+  position: relative;
+  width: min(85vw, 70vh);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 3px solid #fff;
+  border-radius: 8px;
+  touch-action: none;
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    max-width: none;
+    cursor: grab;
+    -webkit-user-drag: none;
+  }
+}
+
+.zoom-slider {
+  width: min(85vw, 70vh);
+}
+
+.hint {
+  color: #fff;
+  font-family: 'EB Garamond', serif;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.cancel-btn {
+  color: #fff;
+}
+
+.capture-btn {
+  background-color: #fff;
+  color: #1a1a1a;
+}
+
+.gallery-btn {
+  color: #fff;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: #fff;
+  text-align: center;
+  max-width: 320px;
+}
+
+.error-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+
+  .back-btn {
+    color: #fff;
+  }
+}

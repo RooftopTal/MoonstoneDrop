@@ -1,7 +1,8 @@
-import {AfterViewInit, Component, ElementRef, inject, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, effect, ElementRef, inject, Input, ViewChild} from '@angular/core';
 import {Moonstone} from '../../models/moonstone.model';
 import {Chart, LinearScale, LineElement, PointElement, ScatterController, Tooltip,} from 'chart.js';
 import {ColourService} from '../../services/colour.service';
+import {BoardPhotoService} from '../../services/board-photo.service';
 
 // register everything the map needs
 Chart.register(ScatterController, LinearScale, LineElement, PointElement, Tooltip);
@@ -27,16 +28,32 @@ export class MapComponent implements AfterViewInit {
   static readonly mapSize = 36;
   chart?: Chart;
 
+  private boardPhoto = inject(BoardPhotoService);
+
   private chartAreaBackgroundPlugin = {
     id: 'chartAreaBackground',
-    beforeDraw(chart: Chart) {
+    beforeDraw: (chart: Chart) => {
       const { ctx, chartArea: { top, left, width, height } } = chart;
       ctx.save();
-      ctx.fillStyle = '#fefcf5';
-      ctx.fillRect(left, top, width, height);
+      const photo = this.boardPhoto.image();
+      if (photo) {
+        ctx.globalAlpha = 0.2;
+        ctx.drawImage(photo, left, top, width, height);
+        ctx.globalAlpha = 1;
+      } else {
+        ctx.fillStyle = '#fefcf5';
+        ctx.fillRect(left, top, width, height);
+      }
       ctx.restore();
     }
   };
+
+  constructor() {
+    effect(() => {
+      this.boardPhoto.image();
+      this.chart?.update();
+    });
+  }
 
   private deploymentZonePlugin = {
     id: 'deploymentZone',

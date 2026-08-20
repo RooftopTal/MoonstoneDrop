@@ -24,5 +24,17 @@
         </mat-slider>
       </div>
     </fieldset>
+
+    <fieldset>
+      <legend>Experimental</legend>
+
+      <div class="setting-row toggle-row">
+        <label>Show beta features</label>
+        <mat-slide-toggle
+          [checked]="settings.showBetaFeatures()"
+          (change)="settings.showBetaFeatures.set($event.checked)">
+        </mat-slide-toggle>
+      </div>
+    </fieldset>
   </div>
 </div>
