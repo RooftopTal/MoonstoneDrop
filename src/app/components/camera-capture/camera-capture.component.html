@@ -1,0 +1,58 @@
+<div class="camera-page">
+  <input #fileInput type="file" accept="image/*" hidden (change)="onFileSelected($event)">
+
+  @if (pickedImage()) {
+    <div class="square-frame"
+      #frame
+      (pointerdown)="onPointerDown($event)"
+      (pointermove)="onPointerMove($event)"
+      (pointerup)="onPointerUp()"
+      (pointercancel)="onPointerUp()">
+      <img
+        [src]="pickedImage()!.src"
+        draggable="false"
+        [style.width.%]="imgWidthPercent()"
+        [style.height.%]="imgHeightPercent()"
+        [style.transform]="'translate(-50%, -50%) translate(' + pan().x + '%, ' + pan().y + '%)'">
+    </div>
+    <mat-slider class="zoom-slider" min="1" max="3" step="0.1" discrete>
+      <input matSliderThumb [value]="zoom()" (valueChange)="onZoomChange($event)">
+    </mat-slider>
+    <p class="hint">Drag to position, use the slider to zoom</p>
+    <div class="controls">
+      <button mat-icon-button class="cancel-btn" (click)="cancel()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button mat-fab class="capture-btn" (click)="confirmFilePhoto()">
+        <mat-icon>check</mat-icon>
+      </button>
+    </div>
+  } @else if (error()) {
+    <div class="error">
+      <p>{{ error() }}</p>
+      <div class="error-actions">
+        <button mat-raised-button (click)="choosePhoto()">
+          <mat-icon>photo_library</mat-icon>
+          Choose from photos
+        </button>
+        <button mat-button class="back-btn" (click)="cancel()">Back</button>
+      </div>
+    </div>
+  } @else {
+    <div class="square-frame">
+      <video #video autoplay playsinline muted></video>
+    </div>
+    <p class="hint">Align the board within the square</p>
+    <div class="controls">
+      <button mat-icon-button class="cancel-btn" (click)="cancel()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button mat-fab class="capture-btn" (click)="capture()">
+        <mat-icon>photo_camera</mat-icon>
+      </button>
+      <button mat-icon-button class="gallery-btn" (click)="choosePhoto()">
+        <mat-icon>photo_library</mat-icon>
+      </button>
+    </div>
+  }
+</div>

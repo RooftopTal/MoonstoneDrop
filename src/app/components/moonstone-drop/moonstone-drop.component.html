@@ -7,11 +7,20 @@
 </header>
 
 <div class="container">
-  <button mat-raised-button
-    (click)="mulliganAll()">
-    <mat-icon>videogame_asset</mat-icon>
-    Drop moonstones!
-  </button>
+  <div class="button-row">
+    <button mat-raised-button
+      (click)="mulliganAll()">
+      <mat-icon>videogame_asset</mat-icon>
+      Drop moonstones!
+    </button>
+
+    @if (settings.showBetaFeatures()) {
+      <button mat-raised-button routerLink="/camera">
+        <mat-icon>photo_camera</mat-icon>
+        Take board photo
+      </button>
+    }
+  </div>
 
   <!-- Map  -->
   <app-map [stones]="stones" class="map-container"/>
