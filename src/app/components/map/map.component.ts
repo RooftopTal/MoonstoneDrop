@@ -1,10 +1,10 @@
 import {AfterViewInit, Component, ElementRef, inject, Input, ViewChild} from '@angular/core';
 import {Moonstone} from '../../models/moonstone.model';
-import {Chart, Legend, LinearScale, PointElement, ScatterController, Tooltip,} from 'chart.js';
+import {Chart, LinearScale, LineElement, PointElement, ScatterController, Tooltip,} from 'chart.js';
 import {ColourService} from '../../services/colour.service';
 
 // register everything the map needs
-Chart.register(ScatterController, LinearScale, PointElement, Tooltip, Legend);
+Chart.register(ScatterController, LinearScale, LineElement, PointElement, Tooltip);
 
 @Component({
   selector: 'app-map',
@@ -14,6 +14,8 @@ Chart.register(ScatterController, LinearScale, PointElement, Tooltip, Legend);
 })
 export class MapComponent implements AfterViewInit {
   private _stones: Moonstone[] = [];
+
+  private static readonly deploymentZoneInset = 10;
 
   @Input()
   set stones(value: Moonstone[]) {
@@ -34,6 +36,54 @@ export class MapComponent implements AfterViewInit {
       ctx.fillRect(left, top, width, height);
       ctx.restore();
     }
+  };
+
+  private deploymentZonePlugin = {
+    id: 'deploymentZone',
+    beforeDatasetsDraw(chart: Chart) {
+      const deploymentZoneIndex = chart.data.datasets.findIndex(
+        (dataset) => dataset.label === 'Deployment Zone',
+      );
+
+      if (deploymentZoneIndex === -1 || !chart.isDatasetVisible(deploymentZoneIndex)) return;
+
+      const {ctx, scales} = chart;
+      const xScale = scales['x'];
+      const yScale = scales['y'];
+      const edge = MapComponent.deploymentZoneInset;
+      const innerEdge = MapComponent.mapSize - edge;
+      const lines = [
+        [
+          {x: edge, y: 0},
+          {x: edge, y: MapComponent.mapSize},
+        ],
+        [
+          {x: innerEdge, y: 0},
+          {x: innerEdge, y: MapComponent.mapSize},
+        ],
+        [
+          {x: 0, y: edge},
+          {x: MapComponent.mapSize, y: edge},
+        ],
+        [
+          {x: 0, y: innerEdge},
+          {x: MapComponent.mapSize, y: innerEdge},
+        ],
+      ];
+
+      ctx.save();
+      ctx.strokeStyle = '#A9D9F2';
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.setLineDash([2, 5]);
+      lines.forEach(([start, end]) => {
+        ctx.beginPath();
+        ctx.moveTo(xScale.getPixelForValue(start.x), yScale.getPixelForValue(start.y));
+        ctx.lineTo(xScale.getPixelForValue(end.x), yScale.getPixelForValue(end.y));
+        ctx.stroke();
+      });
+      ctx.restore();
+    },
   };
 
   private alwaysShowLabelsPlugin = ({
@@ -68,12 +118,24 @@ export class MapComponent implements AfterViewInit {
         type: 'scatter',
         data: {
           labels: [],
-          datasets: [{
-            label: "Moonstones",
-            borderColor: '#36A2EB',
-            backgroundColor: '#9BD0F5',
-            data: []
-          }]
+          datasets: [
+            {
+              label: 'Moonstones',
+              borderColor: '#36A2EB',
+              backgroundColor: '#9BD0F5',
+              data: []
+            },
+            {
+              label: 'Deployment Zone',
+              borderColor: '#A9D9F2',
+              backgroundColor: 'transparent',
+              data: [],
+              fill: false,
+              pointRadius: 0,
+              pointHoverRadius: 0,
+              showLine: true,
+            }
+          ]
         },
         options: {
           aspectRatio: 1,
@@ -88,7 +150,7 @@ export class MapComponent implements AfterViewInit {
             legend: { display: false },
           },
         },
-        plugins: [this.chartAreaBackgroundPlugin, this.alwaysShowLabelsPlugin]
+        plugins: [this.chartAreaBackgroundPlugin, this.deploymentZonePlugin, this.alwaysShowLabelsPlugin]
       },
     );
     this.updateChartData(this._stones);
