@@ -29,10 +29,18 @@
       <legend>Experimental</legend>
 
       <div class="setting-row toggle-row">
-        <label>Show beta features</label>
+        <label>Show board photo</label>
         <mat-slide-toggle
           [checked]="settings.showBetaFeatures()"
           (change)="settings.showBetaFeatures.set($event.checked)">
+        </mat-slide-toggle>
+      </div>
+
+      <div class="setting-row toggle-row">
+        <label>Show deployment areas</label>
+        <mat-slide-toggle
+          [checked]="settings.showDeploymentZones()"
+          (change)="settings.showDeploymentZones.set($event.checked)">
         </mat-slide-toggle>
       </div>
     </fieldset>

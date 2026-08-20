@@ -3,6 +3,7 @@ import {Moonstone} from '../../models/moonstone.model';
 import {Chart, LinearScale, LineElement, PointElement, ScatterController, Tooltip,} from 'chart.js';
 import {ColourService} from '../../services/colour.service';
 import {BoardPhotoService} from '../../services/board-photo.service';
+import {SettingsService} from '../../services/settings.service';
 
 // register everything the map needs
 Chart.register(ScatterController, LinearScale, LineElement, PointElement, Tooltip);
@@ -29,6 +30,7 @@ export class MapComponent implements AfterViewInit {
   chart?: Chart;
 
   private boardPhoto = inject(BoardPhotoService);
+  private settings = inject(SettingsService);
 
   private chartAreaBackgroundPlugin = {
     id: 'chartAreaBackground',
@@ -51,13 +53,16 @@ export class MapComponent implements AfterViewInit {
   constructor() {
     effect(() => {
       this.boardPhoto.image();
+      this.settings.showDeploymentZones();
       this.chart?.update();
     });
   }
 
   private deploymentZonePlugin = {
     id: 'deploymentZone',
-    beforeDatasetsDraw(chart: Chart) {
+    beforeDatasetsDraw: (chart: Chart) => {
+      if (!this.settings.showDeploymentZones()) return;
+
       const deploymentZoneIndex = chart.data.datasets.findIndex(
         (dataset) => dataset.label === 'Deployment Zone',
       );
@@ -89,8 +94,8 @@ export class MapComponent implements AfterViewInit {
       ];
 
       ctx.save();
-      ctx.strokeStyle = '#A9D9F2';
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#36A2EB';
+      ctx.lineWidth = 3;
       ctx.lineCap = 'round';
       ctx.setLineDash([2, 5]);
       lines.forEach(([start, end]) => {
@@ -144,7 +149,6 @@ export class MapComponent implements AfterViewInit {
             },
             {
               label: 'Deployment Zone',
-              borderColor: '#A9D9F2',
               backgroundColor: 'transparent',
               data: [],
               fill: false,

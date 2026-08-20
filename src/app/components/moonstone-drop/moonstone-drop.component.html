@@ -15,10 +15,17 @@
     </button>
 
     @if (settings.showBetaFeatures()) {
-      <button mat-raised-button routerLink="/camera">
-        <mat-icon>photo_camera</mat-icon>
-        Take board photo
-      </button>
+      @if (boardPhoto.photoUrl()) {
+        <button mat-raised-button (click)="boardPhoto.clearPhoto()">
+          <mat-icon>delete</mat-icon>
+          Clear backdrop photo
+        </button>
+      } @else {
+        <button mat-raised-button routerLink="/camera">
+          <mat-icon>photo_camera</mat-icon>
+          Take board photo
+        </button>
+      }
     }
   </div>
 

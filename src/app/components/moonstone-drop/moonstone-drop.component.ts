@@ -9,6 +9,7 @@ import {ColourService} from '../../services/colour.service';
 import {MoonstoneIconComponent} from './moonstone-icon/moonstone-icon.component';
 import {RouterLink} from '@angular/router';
 import {SettingsService} from '../../services/settings.service';
+import {BoardPhotoService} from '../../services/board-photo.service';
 
 @Component({
   selector: 'app-moonstone-drop',
@@ -27,6 +28,7 @@ export class MoonstoneDropComponent {
   private dropService = inject(DropService);
   colourService = inject(ColourService);
   settings = inject(SettingsService);
+  boardPhoto = inject(BoardPhotoService);
 
   readonly columnsToDisplay: string[] = ['colour', 'degrees', 'distance', 'depth', 'reroll'];
 
