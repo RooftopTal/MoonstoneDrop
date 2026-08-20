@@ -1,0 +1,21 @@
+<div class="camera-page">
+  @if (error()) {
+    <div class="error">
+      <p>{{ error() }}</p>
+      <button mat-raised-button (click)="cancel()">Back</button>
+    </div>
+  } @else {
+    <div class="square-frame">
+      <video #video autoplay playsinline muted></video>
+    </div>
+    <p class="hint">Align the board within the square</p>
+    <div class="controls">
+      <button mat-icon-button class="cancel-btn" (click)="cancel()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button mat-fab class="capture-btn" (click)="capture()">
+        <mat-icon>photo_camera</mat-icon>
+      </button>
+    </div>
+  }
+</div>

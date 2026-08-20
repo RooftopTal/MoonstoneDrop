@@ -39,6 +39,13 @@
   overflow: hidden;
 }
 
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
 .map-container {
   display: block;
   flex: 0 0 auto;
